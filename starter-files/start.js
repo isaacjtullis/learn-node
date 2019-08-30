@@ -11,14 +11,34 @@ if (major < 7 || (major === 7 && minor <= 5)) {
 require('dotenv').config({ path: 'variables.env' });
 
 // Connect to our Database and handle any bad connections
-mongoose.connect(process.env.DATABASE);
+// mongoose.connect(process.env.DATABASE);
+// let url = mongodb://user:pass@host.com:port/database
+//
+// mongoose.connect(process.env.DATABASE);
+console.log('connecting to database:');
+mongoose.connect(encodeURI(process.env.DATABASE));
+// mongoose.connect('mongodb://123:123@smtp.mailtrap.io.com:7777/database', function(err,db){
+//   if(err){
+//     console.log('error');
+//   } else {
+//     console.log('connected to the database');
+//   }
+// });
+// mongoose.connect(process.env.MONGO_URI, {
+//   auth: {
+//     user: process.env.DB_USER,
+//     pass: process.env.DB_PASS, host: process.env.DB_HOST
+//   },
+//   { useNewUrlParser: true }
+// })
+
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
-mongoose.connection.on('error', (err) => {
+mongoose.connection.catch((err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
 });
 
 // READY?! Let's go!
-
+// `mongoose.connect(process.env.MONGO_URI, {user: process.env.DB_USER, pass: process.env.DB_PASS});`. I had issues connecting to my mongodb because my password contained symbols.
 
 // Start our app!
 const app = require('./app');
