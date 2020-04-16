@@ -39,7 +39,8 @@ mongoose.connection.catch((err) => {
 
 // READY?! Let's go!
 // `mongoose.connect(process.env.MONGO_URI, {user: process.env.DB_USER, pass: process.env.DB_PASS});`. I had issues connecting to my mongodb because my password contained symbols.
-
+// import all of our models
+require('./models/Store');
 // Start our app!
 const app = require('./app');
 app.set('port', process.env.PORT || 7777);
